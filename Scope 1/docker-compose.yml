@@ -1,0 +1,62 @@
+services:
+  django-app:
+    build:
+      context: ./JiraTicketClassifier/Jira-Backend
+      dockerfile: DockerFile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - embedding-host
+      - qdrant
+    volumes:
+      - ./JiraTicketClassifier/Jira-Backend:/app
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  embedding-host:
+    image: ollama/ollama
+    ports:
+      - "8001:11434"
+    volumes:
+      - ollama:/root/.ollama
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.2
+    container_name: qdrant
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__STORAGE__STORAGE_PATH=/qdrant/storage
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  es-data:
+    driver: local
+  ollama:
+    driver: local
+  qdrant_data:
+    driver: local
