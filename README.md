@@ -46,6 +46,4 @@ A bilingual JIRA ticket classification system built using a fine-tuned **ModernB
 
 ---
 
-## 📁 Project Structure
-
 
