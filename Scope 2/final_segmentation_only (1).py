@@ -41,7 +41,7 @@ warnings.filterwarnings("ignore", category=FutureWarning, message="You are using
 from huggingface_hub import login
 from farasa.segmenter import FarasaSegmenter
 
-login("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")
+login("")
 print("Loading oscar dataset (Arabic) in non-streaming mode...")
 
 dataset = load_dataset("oscar-corpus/oscar", "unshuffled_deduplicated_ar", split="train")

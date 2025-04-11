@@ -20,7 +20,7 @@ from farasa.segmenter import FarasaSegmenter
 import random
 import pandas as pd
 
-login("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")
+login("")
 dataset = load_dataset("oscar-corpus/oscar", "unshuffled_deduplicated_ar", split="train", streaming=True)
 
 farasa_segmenter = FarasaSegmenter(interactive=True)

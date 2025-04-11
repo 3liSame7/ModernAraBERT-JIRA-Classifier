@@ -17,7 +17,7 @@ import re
 from farasa.segmenter import FarasaSegmenter
 import random
 
-login("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")
+login("")
 
 
 print("Loading oscar dataset (Arabic) in non-streaming mode...")
